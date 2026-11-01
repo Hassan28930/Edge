@@ -1,0 +1,10 @@
+# rendered media (regenerate with: python3 kurz_blackhole.py)
+*.mp4
+sfx.wav
+poster.png
+still_*.png
+_t_*.png
+
+# caches / local environment
+__pycache__/
+.fonts/
