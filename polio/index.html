@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1A1A1E">
+  <title>Polio is back. But why? — Inside Out</title>
+  <style>
+    @font-face { font-family: Inter; src: url('./assets/inter-black.woff2') format('woff2'); font-weight: 900; font-display: swap; }
+    @font-face { font-family: Inter; src: url('./assets/inter-semibold.woff2') format('woff2'); font-weight: 600; font-display: swap; }
+    :root { color-scheme: dark; --ink:#1A1A1E; --cream:#F4F1EA; --yellow:#FFD43B; --red:#D62839; --muted:#99969A; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:#1A1A1E; color:var(--cream); font:600 14px Inter,Arial,sans-serif; }
+    button, input { font:inherit; }
+    button { cursor:pointer; }
+    a { color:inherit; }
+    .site-header { height:76px; padding:0 max(28px,calc((100vw - 1390px)/2)); display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #38373B; }
+    .brand { display:flex; align-items:center; gap:13px; text-decoration:none; font-weight:900; letter-spacing:-.025em; font-size:16px; }
+    .brand-icon { width:36px; height:36px; display:grid; place-items:center; color:var(--ink); background:var(--yellow); border-radius:10px; font-size:14px; transform:rotate(-8deg); }
+    .header-right { display:flex; align-items:center; gap:13px; color:#B5B0AE; font-size:11px; text-transform:uppercase; letter-spacing:.18em; }
+    .header-right .dot { width:7px; height:7px; border-radius:50%; background:var(--yellow); }
+    .shell { max-width:1390px; margin:0 auto; padding:35px 28px 68px; }
+    .intro { display:flex; justify-content:space-between; gap:24px; align-items:end; padding-bottom:26px; border-bottom:1px solid #38373B; }
+    .eyebrow { margin:0 0 12px; color:var(--yellow); text-transform:uppercase; letter-spacing:.19em; font-size:11px; font-weight:900; }
+    h1 { margin:0; font-size:clamp(32px,3.5vw,54px); line-height:1.02; letter-spacing:-.055em; font-weight:900; }
+    h1 em { font-style:normal; color:var(--yellow); }
+    .intro-note { margin:0 0 4px; max-width:310px; font-size:13px; line-height:1.6; color:#B1ADB0; font-weight:600; }
+    .workspace { display:grid; grid-template-columns:minmax(195px,1fr) minmax(312px,410px) minmax(195px,1fr); gap:clamp(26px,5vw,88px); align-items:start; padding-top:31px; }
+    .side-label { font-size:11px; letter-spacing:.18em; text-transform:uppercase; font-weight:900; color:#89868A; margin:9px 0 21px; }
+    .chapter-list { display:flex; flex-direction:column; gap:6px; }
+    .chapter { width:100%; border:0; border-left:2px solid #444248; background:transparent; color:#9E9B9F; display:flex; gap:16px; align-items:flex-start; text-align:left; padding:13px 0 13px 15px; transition:color .2s, border-color .2s, background .2s; }
+    .chapter:hover, .chapter:focus-visible { color:var(--cream); border-color:var(--yellow); background:#242327; outline:0; }
+    .chapter.active { color:var(--cream); border-color:var(--yellow); }
+    .chapter-number { color:var(--yellow); font-size:11px; padding-top:3px; letter-spacing:.08em; }
+    .chapter-title { display:block; font-weight:900; font-size:14px; margin-bottom:5px; }
+    .chapter-summary { display:block; font-size:11px; line-height:1.4; color:#878488; }
+    .player-column { min-width:0; }
+    .player-label { display:flex; align-items:center; justify-content:space-between; margin:0 0 10px; font-size:11px; color:#9B999C; letter-spacing:.13em; text-transform:uppercase; }
+    .player-label strong { color:var(--yellow); font-size:11px; }
+    .screen { position:relative; max-width:370px; margin:0 auto; background:var(--cream); border:5px solid #4D4B4E; border-radius:18px; box-shadow:0 22px 0 #111113, 0 36px 70px rgba(0,0,0,.25); overflow:hidden; aspect-ratio:9/16; }
+    canvas { display:block; width:100%; height:100%; object-fit:contain; }
+    .controls { max-width:370px; margin:35px auto 0; }
+    .transport { display:flex; align-items:center; gap:13px; }
+    .play { background:var(--yellow); border:0; border-radius:50%; width:52px; height:52px; color:var(--ink); font-size:20px; display:grid; place-items:center; flex-shrink:0; padding:0 0 1px 2px; transition:transform .16s ease, background .16s; }
+    .play:hover { transform:scale(1.08); background:#FFE375; }
+    .play svg { display:block; width:22px; height:22px; }
+    .play:focus-visible, .tiny-button:focus-visible, a:focus-visible, input:focus-visible { outline:2px solid var(--yellow); outline-offset:3px; }
+    .seek-group { flex:1; min-width:0; }
+    .times { display:flex; justify-content:space-between; color:#B5B0AE; font-size:11px; font-variant-numeric:tabular-nums; margin-bottom:7px; }
+    .seek { display:block; appearance:none; -webkit-appearance:none; width:100%; height:6px; border-radius:8px; background:linear-gradient(90deg,var(--yellow) var(--progress,0%),#454348 var(--progress,0%)); cursor:pointer; margin:0; }
+    .seek::-webkit-slider-thumb { appearance:none; width:15px; height:15px; background:var(--yellow); border:3px solid var(--ink); border-radius:50%; box-shadow:0 0 0 2px var(--yellow); }
+    .seek::-moz-range-thumb { width:11px; height:11px; background:var(--yellow); border:2px solid var(--ink); border-radius:50%; }
+    .tiny-button { width:35px; height:35px; display:grid; place-items:center; padding:0; background:#302F33; border:1px solid #4A484C; border-radius:9px; color:var(--cream); font-size:16px; }
+    .tiny-button:hover { background:#47454A; }
+    .tiny-button svg { display:block; width:18px; height:18px; }
+    .tool-row { display:flex; justify-content:space-between; align-items:center; padding-top:19px; border-top:1px solid #38373B; margin-top:22px; gap:10px; }
+    .tool-row button { border:0; background:transparent; color:#C1BDC0; font-size:11px; text-transform:uppercase; letter-spacing:.11em; font-weight:900; padding:6px 0; }
+    .tool-row button:hover { color:var(--yellow); }
+    .tool-row .download { display:none; color:var(--yellow); font-size:11px; text-transform:uppercase; letter-spacing:.11em; font-weight:900; text-decoration:none; }
+    .tool-row .download.show { display:block; }
+    .chapter-index { font-size:11px; color:var(--yellow); font-weight:900; letter-spacing:.12em; }
+    .info-card { padding:24px; border:1px solid #454348; border-radius:15px; background:#232226; }
+    .info-card + .info-card { margin-top:18px; }
+    .info-card .tag { display:inline-block; font-size:10px; letter-spacing:.16em; font-weight:900; color:var(--yellow); text-transform:uppercase; margin-bottom:17px; }
+    .info-card h2 { margin:0 0 10px; font-size:22px; line-height:1.1; font-weight:900; letter-spacing:-.04em; }
+    .info-card p { color:#B4B1B4; font-size:12px; line-height:1.65; margin:0; }
+    .spec-row { display:flex; justify-content:space-between; border-top:1px solid #3A393E; padding:12px 0; font-size:12px; }
+    .spec-row:first-of-type { margin-top:10px; }
+    .spec-row:last-of-type { padding-bottom:0; }
+    .spec-row span:first-child { color:#8F8C91; }
+    .spec-row strong { color:var(--cream); font-size:11px; letter-spacing:.04em; }
+    .footnote { margin:24px 0 0; color:#807C81; font-size:10px; line-height:1.7; max-width:270px; }
+    @media(max-width:950px) { .workspace { grid-template-columns:minmax(280px,410px) 1fr; gap:32px; } .chapters-side { grid-column:2; grid-row:1; } .player-column { grid-column:1; grid-row:1/3; } .details-side { grid-column:2; grid-row:2; } }
+    @media(max-width:660px) { .site-header { padding:0 18px; height:64px; } .header-right span:last-child { display:none; } .shell { padding:25px 16px 50px; } .intro { display:block; padding-bottom:20px; } .intro-note { margin-top:13px; } .workspace { display:flex; flex-direction:column; align-items:stretch; gap:28px; padding-top:22px; } .player-column { order:0; } .chapters-side { order:1; } .details-side { order:2; } .screen { width:min(84vw,370px); } .controls { max-width:min(84vw,370px); margin-top:32px; } .chapter-list { display:grid; grid-template-columns:1fr 1fr; } .chapter { padding-right:8px; } .info-card { padding:20px; } }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition:none!important; } }
+    body.export-mode { margin:0; width:1080px; height:1920px; overflow:hidden; }
+    body.export-mode .site-header, body.export-mode .intro, body.export-mode .chapters-side, body.export-mode .details-side, body.export-mode .player-label, body.export-mode .controls { display:none; }
+    body.export-mode .shell, body.export-mode .workspace, body.export-mode .player-column, body.export-mode .screen { width:1080px; max-width:none; margin:0; padding:0; display:block; border:0; border-radius:0; box-shadow:none; }
+    body.export-mode .screen { aspect-ratio:9/16; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand"><span class="brand-icon">IO</span><span>INSIDE OUT <span style="color:#77747A">/</span> SHORTS</span></div>
+    <div class="header-right"><span class="dot"></span><span>AN ANIMATED FIELD NOTE</span><span>EPISODE 01</span></div>
+  </header>
+  <main class="shell">
+    <div class="intro">
+      <div><p class="eyebrow">The question nobody wants to ask</p><h1>Polio is back. <em>But why?</em></h1></div>
+      <p class="intro-note">A 67-second illustrated explainer on immunity gaps, vaccine-derived polio and what it takes to reach every child.</p>
+    </div>
+    <div class="workspace">
+      <aside class="chapters-side" aria-label="Video chapters">
+        <div class="side-label">01 — The story</div>
+        <div class="chapter-list" id="chapter-list"></div>
+      </aside>
+      <section class="player-column" aria-label="Video player">
+        <div class="player-label"><span>NOW PLAYING / POLIO EXPLAINED</span><strong>9:16 FILM</strong></div>
+        <div class="screen"><canvas id="film" width="1080" height="1920" role="img" aria-label="Flat-vector animated explainer about polio"></canvas></div>
+        <div class="controls">
+          <div class="transport">
+            <button class="play" id="play" type="button" aria-label="Play video"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 3v18l15-9z"/></svg></button>
+            <div class="seek-group">
+              <div class="times"><span id="time-current">0:00</span><span>1:07</span></div>
+              <input class="seek" id="seek" type="range" min="0" max="67" step="0.01" value="0" aria-label="Seek through video">
+            </div>
+            <button class="tiny-button" id="mute" type="button" aria-label="Mute narration" title="Mute narration"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm12-1c2 1 3 2.3 3 4s-1 3-3 4m2-11c3 1.7 5 4.1 5 7s-2 5.3-5 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          </div>
+          <div class="tool-row"><span class="chapter-index" id="chapter-index">01 / 07</span><button id="captions" type="button" aria-pressed="true">CC · ON</button><a id="download" class="download" href="./export/polio-is-back-vertical.mp4" download>↓ Download MP4</a></div>
+        </div>
+      </section>
+      <aside class="details-side">
+        <div class="side-label">02 — About the film</div>
+        <div class="info-card"><span class="tag">Inside the story</span><h2>One case<br>changes everything.</h2><p>Wild polio remains confined to two countries. Under-immunized communities can also see outbreaks from vaccine-derived strains. The answer is vaccination and fast detection.</p></div>
+        <div class="info-card"><span class="tag">The format</span><div class="spec-row"><span>Canvas</span><strong>1080 × 1920</strong></div><div class="spec-row"><span>Frame rate</span><strong>30 FPS</strong></div><div class="spec-row"><span>Language</span><strong>Hinglish VO / English CC</strong></div><div class="spec-row"><span>Visuals</span><strong>100% CODE-DRAWN</strong></div></div>
+        <p class="footnote">This is an illustrative explainer, not medical advice. Statistics and script were supplied for this video brief.</p>
+      </aside>
+    </div>
+  </main>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
