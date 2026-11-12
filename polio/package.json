@@ -1,0 +1,18 @@
+{
+  "name": "polio-inside-out-short",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node tools/server.mjs",
+    "audio": "node tools/prepare-audio.mjs",
+    "check": "node --test tests/*.test.mjs",
+    "render": "node tools/render.mjs",
+    "render:draft": "node tools/render.mjs --draft"
+  },
+  "devDependencies": {
+    "@ffmpeg-installer/linux-x64": "4.1.0",
+    "@fontsource/inter": "5.2.8",
+    "@sparticuz/chromium": "153.0.0",
+    "playwright-core": "1.55.1"
+  }
+}
